@@ -1,0 +1,14 @@
+
+bilm.egg-info/
+dist/
+build/
+
+*.pyc
+*.swp
+*.txt
+usr_dir/data/*
+usr_dir/model/*
+usr_dir/output/*
+usr_dir/train/*
+usr_dir/raw/*
+usr_dir/vocab/*
