@@ -3,9 +3,9 @@
 #### Set your arguments here ####
 ############## START ###################
 PROJECT_HOME=$HOME/www/bilm-tf
-TRAIN_PREFIX=$PROJECT_HOME/usr_dir/data/*.txt
+TRAIN_PREFIX=$PROJECT_HOME/usr_dir/data/sejong.train.char-*-of-00010
 VOCAB_FILE=$PROJECT_HOME/usr_dir/vocab/sejong.train.vocab.txt
-SAVE_DIR=$PROJECT_HOME/usr_dir/model/sejong.back
+SAVE_DIR=$PROJECT_HOME/usr_dir/model/sejong_bio
 ############## END #####################
 
 cd $PROJECT_HOME

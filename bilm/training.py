@@ -141,10 +141,12 @@ class LanguageModel(object):
         max_chars = cnn_options['max_characters_per_token']
         char_embed_dim = cnn_options['embedding']['dim']
         n_chars = cnn_options['n_characters']
+        '''n_chars 자유롭게 설정하도록 변경
         if n_chars != 261:
             raise InvalidNumberOfCharacters(
                     "Set n_characters=261 for training see the README.md"
             )
+        '''
         if cnn_options['activation'] == 'tanh':
             activation = tf.nn.tanh
         elif cnn_options['activation'] == 'relu':
@@ -208,6 +210,7 @@ class LanguageModel(object):
                             inp, w,
                             strides=[1, 1, 1, 1],
                             padding="VALID") + b
+                            
                     # now max pool
                     conv = tf.nn.max_pool(
                             conv, [1, 1, max_chars-width+1, 1],
