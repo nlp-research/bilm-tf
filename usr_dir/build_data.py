@@ -37,15 +37,25 @@ def main(args):
             emj_list_to_write = []
             for tag_and_emj in tagged_emjs_list:
                 tag, emj = preprocess.split_tag_and_emj(tag_and_emj)
+                #한글일 경우
                 if hgtk.checker.is_hangul(emj):
-                    emj_list_to_write.append(tag + ''.join(hgtk.letter.decompose(emj)))
+                    emj_to_write = tag + ''.join(hgtk.letter.decompose(emj))
+                    #emj_list_to_write.append(emj)
+                    #vocab_count[emj] = vocab_count.get(e, 0) + 1
+                #한글이 아닐 경우
                 else:
-                    emj_list_to_write.append(tag_and_emj)
-            
+                    emj_to_write = tag_and_emj
+                    #emj_list_to_write.append(tag_and_emj)
+                    #vocab_count[e] = vocab_count.get(e, 0) + 1
+                vocab_count[emj_to_write] = vocab_count.get(emj_to_write, 0) + 1
+                jaso_set.update(list(emj_to_write))
+                emj_list_to_write.append(emj_to_write)
+            '''
             # vocab count 및 자소 사전 구성
             for e in emj_list_to_write:
                 vocab_count[e] = vocab_count.get(e, 0) + 1
                 jaso_set.update(list(e))
+            '''
 
             train_file_number = (index % total_file_number) + 1
             train_file_name = f'{args.train_file}-{str(train_file_number).zfill(zeros)}-of-{str(total_file_number).zfill(zeros)}'
@@ -64,10 +74,11 @@ def main(args):
                 #break
                 None
 
+    #sort by count
     sorted_vocab_count = sorted(vocab_count.items(), key=operator.itemgetter(1), reverse=True)
     info_json = {
         "n_train_tokens" : n_train_tokens
-        , "n_tokens_vocab" : len(sorted_vocab_count)
+        , "n_tokens_vocab" : len(sorted_vocab_count) + 3 #<S> </S> <UNK> added
         ,  "max_characters_per_token" : max([len(vocab) for vocab, count in sorted_vocab_count])
         , 'n_characters': len(jaso_set)
         , 'jaso_set' : list(jaso_set)

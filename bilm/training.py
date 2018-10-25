@@ -14,7 +14,7 @@ from tensorflow.python.ops.init_ops import glorot_uniform_initializer
 
 from .data import Vocabulary, UnicodeCharsVocabulary, InvalidNumberOfCharacters
 
-#import tensorflow.python.debug as tf_debug
+import pdb
 
 DTYPE = 'float32'
 DTYPE_INT = 'int64'
@@ -493,6 +493,7 @@ class LanguageModel(object):
             next_ids = [self.next_token_id, self.next_token_id_reverse]
         else:
             next_ids = [self.next_token_id]
+            
 
         for id_placeholder, lstm_output_flat in zip(next_ids, lstm_outputs):
             # flatten the LSTM output and next token id gold to shape:

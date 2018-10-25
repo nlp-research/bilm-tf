@@ -7,9 +7,9 @@ BUILD_DATA_PY=$PROJECT_HOME/usr_dir/build_data.py
 #RAW_FILE=$PROJECT_HOME/usr_dir/raw/sejong.train.morph.original
 RAW_FILE=$PROJECT_HOME/usr_dir/raw/sejong_raw.txt
 TRAIN_FILE=$PROJECT_HOME/usr_dir/data/sejong.train.char
-VOCAB_FILE=$PROJECT_HOME/usr_dir/vocab/sejong.train.vocab.txt
+VOCAB_FILE=$PROJECT_HOME/usr_dir/data/sejong.train.vocab.txt
 #VOCAB_JSON=$PROJECT_HOME/usr_dir/data/sejong.train.vocab.json
-SPLIT_NUMBER=10
+SPLIT_NUMBER=50
 ############## END #####################
 
 echo "building train file and vocab file START"
