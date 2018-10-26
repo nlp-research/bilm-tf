@@ -9,15 +9,15 @@ from bilm.data import BidirectionalLMDataset
 
 def main(args):
     # load the vocab
-    vocab = load_vocab(args.vocab_file, 4)
-    #vocab = load_vocab(args.vocab_file, 1373)
+    #vocab = load_vocab(args.vocab_file, 4)
+    vocab = load_vocab(args.vocab_file, 50)
     print('vocab.size={}'.format(vocab.size))
     
     # define the options
-    batch_size = 256  # batch size for each GPU
+    #batch_size = 128  # batch size for each GPU
     #batch_size = 256  # batch size for each GPU
     #n_gpus = 3
-    #batch_size = 64  # batch size for each GPU
+    batch_size = 64  # batch size for each GPU
     #n_gpus = 1
     n_gpus = 2
 
@@ -31,19 +31,17 @@ def main(args):
 
      'char_cnn': {'activation': 'relu',
       'embedding': {'dim': 16},
-      'filters': [
-       [1, 32],
+      'filters': [[1, 32],
        [2, 32],
-       [2, 64],
-       [3, 128],
-       [3, 256],
-       [4, 512],
-       [4, 1024]
-      ],
-      #'max_characters_per_token': 50,
-      'max_characters_per_token': 4, #초성 중성 종성
-      #'n_characters': 261,
-      'n_characters': 362,
+       [3, 64],
+       [4, 128],
+       [5, 256],
+       [6, 512],
+       [7, 1024]],
+      'max_characters_per_token': 50,
+      #'max_characters_per_token': 4, #초성 중성 종성
+      'n_characters': 261,
+      #'n_characters': 362,
       'n_highway': 2},
     
      'dropout': 0.1,
@@ -65,8 +63,8 @@ def main(args):
      'n_train_tokens': n_train_tokens,
      'batch_size': batch_size,
      'n_tokens_vocab': vocab.size,
-     #'unroll_steps': 20,
-     'unroll_steps': 4,
+     'unroll_steps': 20,
+     #'unroll_steps': 4,
      #'unroll_steps': 40,
      #'n_negative_samples_batch': 8192,
      #'n_negative_samples_batch': 4488,

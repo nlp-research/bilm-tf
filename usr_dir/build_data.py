@@ -11,6 +11,9 @@ import preprocess
 
 def main(args):
     
+    max_sentence_length = 0
+    avg_sentence_length = 0
+    sentence_count = 1
     print(f'Removinf previous trauilin data files: {args.train_file}*')
     output_files = glob.glob(args.train_file + '*')
     for output_file in output_files:
@@ -35,8 +38,8 @@ def main(args):
             preprocessed_line = preprocess.preprocess_raw(line)
             tagged_emjs_list = preprocess.tag_bio(preprocessed_line)
             emj_list_to_write = []
-            for tag_and_emj in tagged_emjs_list:
-                tag, emj = preprocess.split_tag_and_emj(tag_and_emj)
+            for tag, emj in tagged_emjs_list:
+                #tag, emj = preprocess.split_tag_and_emj(tag_and_emj)
                 #한글일 경우
                 if hgtk.checker.is_hangul(emj):
                     emj_to_write = tag + ''.join(hgtk.letter.decompose(emj))
@@ -44,7 +47,7 @@ def main(args):
                     #vocab_count[emj] = vocab_count.get(e, 0) + 1
                 #한글이 아닐 경우
                 else:
-                    emj_to_write = tag_and_emj
+                    emj_to_write = tag + emj
                     #emj_list_to_write.append(tag_and_emj)
                     #vocab_count[e] = vocab_count.get(e, 0) + 1
                 vocab_count[emj_to_write] = vocab_count.get(emj_to_write, 0) + 1
@@ -60,6 +63,8 @@ def main(args):
             train_file_number = (index % total_file_number) + 1
             train_file_name = f'{args.train_file}-{str(train_file_number).zfill(zeros)}-of-{str(total_file_number).zfill(zeros)}'
             n_train_tokens += len(emj_list_to_write)
+            if len(emj_list_to_write) > max_sentence_length:
+                max_sentence_length = len(emj_list_to_write)
             with open(train_file_name, 'a', encoding='utf-8') as train_f:
                 #train_f.write(' '.join(emj_list_to_write) + ' #%# ' + line + '\n')
                 train_f.write(' '.join(emj_list_to_write) + '\n')
@@ -82,6 +87,7 @@ def main(args):
         ,  "max_characters_per_token" : max([len(vocab) for vocab, count in sorted_vocab_count])
         , 'n_characters': len(jaso_set)
         , 'jaso_set' : list(jaso_set)
+        , 'max_sentence_length' : max_sentence_length
  
     }
     info_json_path = os.path.join(os.path.dirname(args.vocab_file), 'info.json')

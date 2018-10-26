@@ -44,17 +44,12 @@ def tag_bio(sentence):
     for word in sentence:
         for index, char in enumerate(word):
             if index == 0:
-                tagged_sentence_list.append('B' + char)
+                #tagged_sentence_list.append('B' + char)
+                tagged_sentence_list.append(('B', char))
             else:
-                tagged_sentence_list.append('I' + char)
+                #tagged_sentence_list.append('I' + char)
+                tagged_sentence_list.append(('I', char))
     return tagged_sentence_list
-
-# 태그값 가져오기
-#def get_tag(token):
-#    return token[str(token).rfind('/')+1:]
-
-#def get_emj(token):
-#    return token[:str(token).rfind('/')]
 
 def split_tag_and_emj(token):
     if token and (token[0] == 'B' or token[0] == 'I'):

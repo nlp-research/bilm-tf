@@ -9,7 +9,7 @@ RAW_FILE=$PROJECT_HOME/usr_dir/raw/sejong_raw.txt
 TRAIN_FILE=$PROJECT_HOME/usr_dir/data/sejong.train.char
 VOCAB_FILE=$PROJECT_HOME/usr_dir/data/sejong.train.vocab.txt
 #VOCAB_JSON=$PROJECT_HOME/usr_dir/data/sejong.train.vocab.json
-SPLIT_NUMBER=50
+SPLIT_NUMBER=100
 ############## END #####################
 
 echo "building train file and vocab file START"
