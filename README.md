@@ -9,7 +9,7 @@ pip install tensorflow-gpu==1.2 h5py hgtk
 
 ## Insatlling packaages for using pre-trained ELMo
 ```
-pip install allenlp hgtk
+pip install allennlp hgtk
 ```
 
 ## Using pre-trained ELMo representatinos to your new model
