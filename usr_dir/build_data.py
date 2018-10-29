@@ -26,6 +26,7 @@ def main(args):
     jaso_set = set()
     zeros = 5
     total_file_number = int(args.split_number)
+    line_count = 0
     # #%# 엠마누엘 웅가로 / 의상서 실내 장식품으로… 디자인 세계 넓혀
     with open(args.raw_file, 'r', encoding='utf-8') as raw_f:
         for index, line in enumerate(raw_f):
@@ -70,14 +71,14 @@ def main(args):
                 train_f.write(' '.join(emj_list_to_write) + '\n')
 
             # for log print
-            if index % 10000 == 0:
-                print(f"index={index}, line={line}, preprocessed_line={preprocessed_line}, n_train_tokens={n_train_tokens}, train_file_name={train_file_name}")
+            if line_count % 10000 == 0:
+                print(f"line_count={line_count}, line={line}, preprocessed_line={preprocessed_line}, n_train_tokens={n_train_tokens}, train_file_name={train_file_name}")
                 print(f'len(jaso_set)={len(jaso_set)}, jaso_set={jaso_set}')
 
-            # for test
-            if index == 10:
+            if line_count == 10:
                 #break
                 None
+            line_count += 1
 
     #sort by count
     sorted_vocab_count = sorted(vocab_count.items(), key=operator.itemgetter(1), reverse=True)

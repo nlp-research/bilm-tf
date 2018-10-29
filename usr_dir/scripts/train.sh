@@ -5,11 +5,11 @@
 PROJECT_HOME=$HOME/www/bilm-tf
 TRAIN_PREFIX=$PROJECT_HOME/usr_dir/data/sejong.train.char*
 VOCAB_FILE=$PROJECT_HOME/usr_dir/data/sejong.train.vocab.txt
-SAVE_DIR=$PROJECT_HOME/usr_dir/model/sejong_max_char_per_token_50
+SAVE_DIR=$PROJECT_HOME/usr_dir/model/sejong_unroll_steps_40
 ############## END #####################
 
 echo 'train START-------------------'
-export CUDA_VISIBLE_DEVICES=0,1,2,3
+export CUDA_VISIBLE_DEVICES=1,2,3
 cd $PROJECT_HOME
 echo "making model save_dir=$SAVE_DIR"
 mkdir $SAVE_DIR

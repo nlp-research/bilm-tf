@@ -9,21 +9,18 @@ from bilm.data import BidirectionalLMDataset
 
 def main(args):
     # load the vocab
-    #vocab = load_vocab(args.vocab_file, 4)
-    vocab = load_vocab(args.vocab_file, 50)
+    #vocab = load_vocab(args.vocab_file, 50)
+    vocab = load_vocab(args.vocab_file, 4)
     print('vocab.size={}'.format(vocab.size))
     
     # define the options
     #batch_size = 128  # batch size for each GPU
     #batch_size = 256  # batch size for each GPU
-    #n_gpus = 3
-    batch_size = 64  # batch size for each GPU
-    #n_gpus = 1
-    n_gpus = 2
+    batch_size = 128  # batch size for each GPU
+    n_gpus = 3
 
     # number of tokens in training data (this for 1B Word Benchmark)
     #n_train_tokens = 768648884
-    #n_train_tokens = 36374758  #세종 데이터셋 총 토큰 개수
     n_train_tokens = 32119740
 
     options = {
@@ -31,15 +28,17 @@ def main(args):
 
      'char_cnn': {'activation': 'relu',
       'embedding': {'dim': 16},
-      'filters': [[1, 32],
+      'filters': [
+       [1, 32],
        [2, 32],
        [3, 64],
        [4, 128],
-       [5, 256],
-       [6, 512],
-       [7, 1024]],
-      'max_characters_per_token': 50,
-      #'max_characters_per_token': 4, #초성 중성 종성
+       #[5, 256],
+       #[6, 512],
+       #[7, 1024]
+       ],
+       #'max_characters_per_token': 50,
+      'max_characters_per_token': 4, #초성 중성 종성
       'n_characters': 261,
       #'n_characters': 362,
       'n_highway': 2},
@@ -49,26 +48,21 @@ def main(args):
      'lstm': {
       'cell_clip': 3,
       'dim': 4096,
-      #'dim': 2048, # 줄여서 학습
       'n_layers': 2,
       'proj_clip': 3,
-      'projection_dim': 512,
-      #'projection_dim': 256,
+      #'projection_dim': 512,
+      'projection_dim': 256,
       'use_skip_connections': True},
     
      'all_clip_norm_val': 10.0,
     
      'n_epochs': 10,
-     #'n_epochs': 1,
      'n_train_tokens': n_train_tokens,
      'batch_size': batch_size,
      'n_tokens_vocab': vocab.size,
-     'unroll_steps': 20,
-     #'unroll_steps': 4,
-     #'unroll_steps': 40,
-     #'n_negative_samples_batch': 8192,
-     #'n_negative_samples_batch': 4488,
-     'n_negative_samples_batch': 45, #vocab.size=4488, 1% of vocab.size
+     #'unroll_steps': 20,
+     'unroll_steps': 40,
+     'n_negative_samples_batch': int(4488 * 0.01), #vocab.size=4488, 1% of vocab.size
     }
 
     prefix = args.train_prefix

@@ -7,7 +7,6 @@ options_file = '/Users/nhnent/www/bilm-tf/usr_dir/model/sejong_max_char_per_toke
 weight_file = '/Users/nhnent/www/bilm-tf/usr_dir/output/sejong_max_char_per_token_50/weights.hdf5'
 
 # use batch_to_ids to convert sentences to character ids
-#sentences = ['밥을 먹자', '퇴근하고 싶다...AAA']
 sentences = ['밥을 먹자','apple은 맛있다']
 preprocessed_sentences = []
 for sentence in sentences:
