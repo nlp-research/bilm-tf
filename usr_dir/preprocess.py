@@ -1,6 +1,7 @@
 import re
+import hgtk
 
-def preprocess_raw (raw_str):
+def preprocess_raw(raw_str):
 
     raw_str = re.sub('[0-9]+', "Ｎ", raw_str)   #숫자
     raw_str = re.sub('[a-zA-Z]+', "Ａ", raw_str)    #영어
@@ -19,7 +20,7 @@ def preprocess_raw (raw_str):
 
     return raw_str
 
-def preprocess_pos (pos_str):
+def preprocess_pos(pos_str):
 #    pos_str = re.sub(' +', '', pos_str)
 
     pos_str = re.sub('[0-9]+/sn', "Ｎ/SN", pos_str)
@@ -57,12 +58,25 @@ def split_tag_and_emj(token):
     else:
         return '', token
 
+def preprocess_and_tokenize(sentence, bio=True, emj_split=True):
+    sentence = preprocess_raw(sentence).strip().split()
+    tokens = []
+    for word in sentence:
+        for index, char in enumerate(word):
+            #자소분리
+            if hgtk.checker.is_hangul(char):
+                char = ''.join(hgtk.letter.decompose(char))
+            #BIO태그
+            if index == 0:
+                tokens.append('B'+char)
+            else:
+                tokens.append('I'+char)
+    return tokens
+
 def main():
-    sentence = '나는 밥을 먹었다'
-    tagged_list = tag_bio(sentence)
-    print(tagged_list)
-    
-    print(split_tag_and_emj('Bㅂㅏㅂ'))
+    sentence = '나는 밥을 먹었다. APPLE 1개를 가지고 있다'
+    tagged_list = preprocess_and_tokenize(sentence)
+    print(tagged_list)    
 
 if __name__ == '__main__':
     main()

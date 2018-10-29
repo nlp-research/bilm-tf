@@ -1,34 +1,22 @@
-from allennlp.modules.elmo import Elmo, batch_to_ids
+from allennlp.modules.elmo import Elmo, batch_to_ids #pip instal allennlp
 from allennlp.commands.elmo import ElmoEmbedder
 import pdb
-import hgtk
+import hgtk #pip install hgtk
 import preprocess
+import numpy as np
 
 #PROJECT_HOME = 
 options_file = '/Users/nhnent/www/bilm-tf/usr_dir/model/sejong_max_char_per_token_50/options.json'
 weight_file = '/Users/nhnent/www/bilm-tf/usr_dir/output/sejong_max_char_per_token_50/weights.hdf5'
 
-
 # use batch_to_ids to convert sentences to character ids
-
-sentences = ['밥을 먹자', '퇴근하고 싶다...']
-batch_sentences = []
+sentences = ['밥을 먹자 123', '퇴근하고 싶다...AAA']
+preprocessed_sentences = []
 for sentence in sentences:
-    bio_tagged_token_list = preprocess.tag_bio(sentence)
-    decomposed_token_list = []
-    for tag, emj in bio_tagged_token_list:
-        if hgtk.checker.is_hangul(emj):
-            decomposed_token_list.append(tag + ''.join(hgtk.letter.decompose(emj)))   
-        else:
-            decomposed_token_list.append(tag + '' + emj)
-    batch_sentences.append(decomposed_token_list)        
+    preprocessed_sentences.append(preprocess.preprocess_and_tokenize(sentence))
 
-#decomposed_token_list = ["I", "ate", "an", "apple", "for", "breakfast"]
-print('batch_sentences={}'.format(batch_sentences))
-
-
+print(preprocessed_sentences)
 elmo = ElmoEmbedder(options_file, weight_file)
 
-#vectors = elmo.embed_sentence(decomposed_token_list)
-vectors = elmo.embed_batch(batch_sentences)
-pdb.set_trace()
+vectors = elmo.embed_batch(preprocessed_sentences) #return list
+#vectors = elmo.embed_sentences(preprocessed_sentences) #return generator
