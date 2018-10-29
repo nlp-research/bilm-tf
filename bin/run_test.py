@@ -1,4 +1,3 @@
-
 import argparse
 
 from bilm.training import test, load_options_latest_checkpoint, load_vocab
@@ -40,4 +39,3 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     main(args)
-

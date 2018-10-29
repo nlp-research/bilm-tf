@@ -59,18 +59,19 @@ def split_tag_and_emj(token):
         return '', token
 
 def preprocess_and_tokenize(sentence, bio=True, emj_split=True):
-    sentence = preprocess_raw(sentence).strip().split()
+    sentence = preprocess_raw(sentence.strip())
+    splitted_sentence = sentence.split()
     tokens = []
-    for word in sentence:
-        for index, char in enumerate(word):
+    for eoj in splitted_sentence:
+        for index, emj in enumerate(eoj):
             #자소분리
-            if hgtk.checker.is_hangul(char):
-                char = ''.join(hgtk.letter.decompose(char))
+            if hgtk.checker.is_hangul(emj):
+                emj = ''.join(hgtk.letter.decompose(emj))
             #BIO태그
             if index == 0:
-                tokens.append('B'+char)
+                tokens.append('B'+emj)
             else:
-                tokens.append('I'+char)
+                tokens.append('I'+emj)
     return tokens
 
 def main():
