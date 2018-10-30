@@ -41,3 +41,35 @@ vectors = elmo.embed_batch(preprocessed_sentences)
 # use elmo.embed_senteces(preprocessed_sentences) to return generator instead of list
 ```
 
+## Training new ELMo model
+Launch docker container if the docker is not launched. (Only Once)
+```bash
+cd /path/to/usr_dir/scripts
+./run_docker.sh
+```
+
+Install system packages and set datetime and timezone. Run this script inside the docker. (Only Once)
+```bash
+docker attach elmo # if you are not inside of docker
+cd /path/to/usr_dir/scripts
+./install_packages.sh
+```
+
+Inside the docker, set hyperparameters by editing code in [train_elmo.py](https://github.com/nlp-research/bilm-tf/blob/master/bin/train_elmo.py)
+
+Edit [train.sh](https://github.com/nlp-research/bilm-tf/blob/master/usr_dir/scripts/train.sh) to set model name (model directory), vocab file path, train file path.
+Before training, make sure to convert data files from raw format to train format. See [build_data.sh](https://github.com/nlp-research/bilm-tf/blob/master/usr_dir/scripts/build_data.sh)
+
+Run train.sh inside the docker Print stream to nohoup file for logging (Recommanded).
+```bash
+cd /path/to/usr_dir/scripts
+nohoup ./train.sh &
+```
+
+## Converting triained model to hdf5 file
+Either inside or outside of docker, edit and run [dump.sh](https://github.com/nlp-research/bilm-tf/blob/master/usr_dir/scripts/dump.sh) to convert trained model to hdf5 file
+```bash
+cd /path/to/usr_dir/scripts
+./dump.sh
+```
+<i>NOTE</i>: Check your model path in `/path/to/usr_dir/model/model_name/checkpoint` if error occurs when running dump.sh to convert trained model to hdf5 file.
